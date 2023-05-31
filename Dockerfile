@@ -7,6 +7,9 @@ COPY package.json .
 RUN yarn install
 
 COPY src .
+COPY tsconfig.json .
+COPY tsconfig.build.json .
+COPY nest-cli.json .
 
 ENV PORT=8081
 
