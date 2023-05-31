@@ -16,16 +16,16 @@ export class FileIDDTO {
 export class FileSearchDTO {
 	@IsString()
 	@IsOptional()
-	name: string = forceInit();
+	name?: string;
 
 	@IsString()
 	@MaxLength(24)
 	@IsOptional()
-	id: string = forceInit();
+	id?: string;
 
 	@IsString()
 	@IsOptional()
-	type: string = forceInit();
+	type?: string;
 }
 
 export class ISEResponseDTO {

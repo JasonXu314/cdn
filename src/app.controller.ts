@@ -37,6 +37,24 @@ export class AppController {
 		return this.appService.createFile(file);
 	}
 
+	@Get('/search')
+	@ApiProduces('application/json')
+	@ApiQuery({ name: 'id', description: 'A (partial) ID query' })
+	@ApiQuery({ name: 'name', description: 'A (partial) name query' })
+	@ApiQuery({ name: 'type', description: 'A (partial) MIME type query' })
+	@ApiOkResponse({ type: DBFileWithId, isArray: true, description: 'A successful update of the file.' })
+	public async searchFiles(@Query() { id, name, type }: FileSearchDTO): Promise<WithId<DBFile>[]> {
+		if (id !== undefined) {
+			return this.appService.searchFiles(id, 'id');
+		} else if (name !== undefined) {
+			return this.appService.searchFiles(name, 'name');
+		} else if (type !== undefined) {
+			return this.appService.searchFiles(type, 'type');
+		} else {
+			throw new BadRequestException('Must have one of `id` (file id), `name` (file name), or `type` (MIME type)');
+		}
+	}
+
 	@Get('/:id')
 	@ApiProduces('application/octet-stream', 'application/json')
 	@ApiParam({ name: 'id', description: 'The ID of the file to be retrieved (returned on file creation)' })
@@ -77,24 +95,6 @@ export class AppController {
 		});
 
 		return new StreamableFile(newFile.content);
-	}
-
-	@Get('/search')
-	@ApiProduces('application/json')
-	@ApiQuery({ name: 'id', description: 'A (partial) ID query' })
-	@ApiQuery({ name: 'name', description: 'A (partial) name query' })
-	@ApiQuery({ name: 'type', description: 'A (partial) MIME type query' })
-	@ApiOkResponse({ type: DBFileWithId, isArray: true, description: 'A successful update of the file.' })
-	public async searchFiles(@Query() { id, name, type }: FileSearchDTO): Promise<WithId<DBFile>[]> {
-		if (id !== undefined) {
-			return this.appService.searchFiles(id, 'id');
-		} else if (name !== undefined) {
-			return this.appService.searchFiles(name, 'name');
-		} else if (type !== undefined) {
-			return this.appService.searchFiles(type, 'type');
-		} else {
-			throw new BadRequestException('Must have one of `id` (file id), `name` (file name), or `type` (MIME type)');
-		}
 	}
 }
 
