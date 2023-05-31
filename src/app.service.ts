@@ -1,7 +1,7 @@
 import { ConsoleLogger, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
 import { DBService } from './data/db.service';
-import { ApplicationFile } from './data/file.model';
+import { ApplicationFile, DBFile } from './data/file.model';
 import { FSService } from './data/files.service';
 import { getExtension } from './utils';
 
@@ -69,6 +69,10 @@ export class AppService {
 			this._logger.error(err);
 			throw new InternalServerErrorException(`Failed to read file ${id}: ${err}`);
 		}
+	}
+
+	public async searchFiles(text: string, field: 'id' | 'name' | 'type'): Promise<WithId<DBFile>[]> {
+		return this.db.search(text, field);
 	}
 }
 

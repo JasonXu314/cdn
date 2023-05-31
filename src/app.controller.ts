@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Param, Post, Put, Res, StreamableFile, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Param, Post, Put, Query, Res, StreamableFile, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
 	ApiBody,
@@ -9,12 +9,14 @@ import {
 	ApiOkResponse,
 	ApiParam,
 	ApiProduces,
+	ApiQuery,
 	ApiTags
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
 import { AppService } from './app.service';
-import { FileIDDTO, FileUploadDTO, ISEResponseDTO, NotFoundResponseDTO } from './file.dto';
+import { DBFile, DBFileWithId } from './data/file.model';
+import { FileIDDTO, FileSearchDTO, FileUploadDTO, ISEResponseDTO, NotFoundResponseDTO } from './file.dto';
 
 @Controller()
 @ApiTags('Routes')
@@ -75,6 +77,24 @@ export class AppController {
 		});
 
 		return new StreamableFile(newFile.content);
+	}
+
+	@Get('/search')
+	@ApiProduces('application/json')
+	@ApiQuery({ name: 'id', description: 'A (partial) ID query' })
+	@ApiQuery({ name: 'name', description: 'A (partial) name query' })
+	@ApiQuery({ name: 'type', description: 'A (partial) MIME type query' })
+	@ApiOkResponse({ type: DBFileWithId, isArray: true, description: 'A successful update of the file.' })
+	public async searchFiles(@Query() { id, name, type }: FileSearchDTO): Promise<WithId<DBFile>[]> {
+		if (id !== undefined) {
+			return this.appService.searchFiles(id, 'id');
+		} else if (name !== undefined) {
+			return this.appService.searchFiles(name, 'name');
+		} else if (type !== undefined) {
+			return this.appService.searchFiles(type, 'type');
+		} else {
+			throw new BadRequestException('Must have one of `id` (file id), `name` (file name), or `type` (MIME type)');
+		}
 	}
 }
 

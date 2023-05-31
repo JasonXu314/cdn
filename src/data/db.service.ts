@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { MongoClient, ObjectId, WithId } from 'mongodb';
+import { match } from 'src/utils';
 import { DBFile } from './file.model';
 
 @Injectable()
@@ -34,6 +35,12 @@ export class DBService {
 			.db(this._getDB())
 			.collection<DBFile>('files')
 			.findOne({ _id: ObjectId.createFromHexString(id) });
+	}
+
+	public async search(text: string, field: 'id' | 'name' | 'type'): Promise<WithId<DBFile>[]> {
+		const allFiles = await (await this._db).db(this._getDB()).collection<DBFile>('files').find().toArray();
+
+		return allFiles.filter((file) => match(file, text, field));
 	}
 
 	private _getDB(): string {
