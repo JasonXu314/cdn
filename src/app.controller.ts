@@ -86,7 +86,7 @@ export class AppController {
 							Query
 							<input id="search" type="text" oninput="debouncedSearch()" onchange="search()">
 						</label>
-						<label />
+						<label></label>
 						<label for="field">
 							Search By
 							<select id="field" onchange="search()" required>
