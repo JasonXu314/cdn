@@ -58,7 +58,7 @@ export class AppController {
 					const img = document.createElement('img');
 					img.src = \`${this.appService.getLocation()}/\${id}\`;
 					previewElem.appendChild(img);
-					entry.appendChild(typeElem);
+					entry.appendChild(previewElem);
 
 					return entry;
 				}
