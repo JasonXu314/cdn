@@ -32,6 +32,11 @@ export class AppController {
 			<head>
 				<title>CDN - GUI</title>
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+				<style>
+				td img {
+					max-height: 5lh;
+				}
+				</style>
 				<script>window.files = ${JSON.stringify(files)}</script>
 				<script>
 				function makeEntry(id, name, extension, type) {
