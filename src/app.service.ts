@@ -78,5 +78,18 @@ export class AppService {
 	public async searchFiles(text: string, field: 'id' | 'name' | 'type'): Promise<WithId<DBFile>[]> {
 		return this.db.search(text, field);
 	}
+
+	public getLocation(): string {
+		switch (process.env.STAGE) {
+			case 'local':
+				return `http://localhost:${process.env.PORT || 5000}`;
+			case 'stage':
+				return 'https://cdn-stage.jasonxu.dev';
+			case 'live':
+				return 'https://cdn.jasonxu.dev';
+			default:
+				throw new Error(`Unrecognized stage: ${process.env.STAGE}`);
+		}
+	}
 }
 

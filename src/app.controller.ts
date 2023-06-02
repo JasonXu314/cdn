@@ -54,6 +54,12 @@ export class AppController {
 					typeElem.textContent = type;
 					entry.appendChild(typeElem);
 
+					const previewElem = document.createElement('td');
+					const img = document.creaeElement('img');
+					img.src = \`${this.appService.getLocation()}/\${id}\`;
+					previewElem.appendChild(img);
+					entry.appendChild(typeElem);
+
 					return entry;
 				}
 				</script>
