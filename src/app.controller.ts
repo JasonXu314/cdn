@@ -40,6 +40,7 @@ export class AppController {
 				.row {
 					display: flex;
 					flex-direction: row;
+					justify-content: space-around;
 				}
 				</style>
 				<script>window.files = ${JSON.stringify(files)}</script>
