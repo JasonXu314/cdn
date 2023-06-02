@@ -36,6 +36,11 @@ export class AppController {
 				td img {
 					max-height: 5lh;
 				}
+
+				.row {
+					display: flex;
+					flex-direction: row;
+				}
 				</style>
 				<script>window.files = ${JSON.stringify(files)}</script>
 				<script>
@@ -71,6 +76,21 @@ export class AppController {
 			</head>
 			<body>
 				<main class="container">
+					<div class="container row">
+						<label for="search">
+							Query
+							<input id="search" type="text">
+						</label>
+						<label for="field">
+							Search By
+							<select id="field" required>
+								<option value="name">Name</option>
+								<option value="id">ID</option>
+								<option value="type">MIME Type</option>
+							</select>
+						</label>
+						<button onclick="search()">Search</button>
+					</div>
 					<table role="grid">
 						<thead>
 							<tr>
@@ -85,7 +105,9 @@ export class AppController {
 					</table>
 				</main>
 				<script>
-				const list = document.getElementById('list');
+				const list = document.getElementById('list'),
+					query = document.getElementById('search'),
+					field = document.getElementById('field');
 
 				function display() {
 					list.replaceChildren();
@@ -100,6 +122,14 @@ export class AppController {
 				}
 
 				display();
+
+				function search() {
+					fetch(\`/search?\${field.value}=\${query.value}\`).then((res) => res.json())
+						.then((data) => {
+							window.files = data;
+							display();
+						})
+				}
 				</script>
 			</body>
 		</html>
