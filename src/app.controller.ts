@@ -55,7 +55,7 @@ export class AppController {
 					entry.appendChild(typeElem);
 
 					const previewElem = document.createElement('td');
-					const img = document.creaeElement('img');
+					const img = document.createElement('img');
 					img.src = \`${this.appService.getLocation()}/\${id}\`;
 					previewElem.appendChild(img);
 					entry.appendChild(typeElem);
