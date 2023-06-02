@@ -79,7 +79,7 @@ export class AppController {
 					<div class="container row">
 						<label for="search">
 							Query
-							<input id="search" type="text" onchange="debouncedSearch()">
+							<input id="search" type="text" oninput="debouncedSearch()" onchange="search()">
 						</label>
 						<label for="field">
 							Search By
