@@ -37,7 +37,7 @@ export class AppController {
 				function makeEntry(id, name, extension, type) {
 					const entry = document.createElement('tr');
 
-					const idElem = dcument.createElement('th');
+					const idElem = document.createElement('th');
 					idElem.scope = 'row';
 					idElem.textContent = id;
 					entry.appendChild(idElem);
