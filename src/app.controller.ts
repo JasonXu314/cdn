@@ -30,7 +30,7 @@ export class AppController {
 		return `
 		<html data-theme="dark">
 			<head>
-				<title>CDN - GUI<title>
+				<title>CDN - GUI</title>
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 				<script>window.files = ${JSON.stringify(files)}</script>
 				<script>
