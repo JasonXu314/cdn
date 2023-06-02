@@ -79,17 +79,16 @@ export class AppController {
 					<div class="container row">
 						<label for="search">
 							Query
-							<input id="search" type="text">
+							<input id="search" type="text" onchange="debouncedSearch()">
 						</label>
 						<label for="field">
 							Search By
-							<select id="field" required>
+							<select id="field" onchange="search()" required>
 								<option value="name">Name</option>
 								<option value="id">ID</option>
 								<option value="type">MIME Type</option>
 							</select>
 						</label>
-						<button onclick="search()">Search</button>
 					</div>
 					<table role="grid">
 						<thead>
@@ -123,7 +122,21 @@ export class AppController {
 
 				display();
 
+				let timeout = null;
+				function debouncedSearch() {
+					if (timeout !== null) {
+						clearTimeout(timeout);
+					}
+
+					setTimeout(search, 2500);
+				}
+
 				function search() {
+					if (timeout !== null) {
+						clearTimeout(timeout);
+						timeout = null;
+					}
+					
 					fetch(\`/search?\${field.value}=\${query.value}\`).then((res) => res.json())
 						.then((data) => {
 							window.files = data;
