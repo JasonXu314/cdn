@@ -30,6 +30,10 @@ export class DBService {
 		).value;
 	}
 
+	public async getAllMetadata(): Promise<WithId<DBFile>[]> {
+		return (await this._db).db(this._getDB()).collection<DBFile>('files').find().toArray();
+	}
+
 	public async getMetadata(id: string): Promise<DBFile | null> {
 		return (await this._db)
 			.db(this._getDB())

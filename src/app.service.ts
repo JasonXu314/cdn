@@ -23,6 +23,10 @@ export class AppService {
 		}
 	}
 
+	public async getAllFiles(): Promise<WithId<DBFile>[]> {
+		return this.db.getAllMetadata();
+	}
+
 	public async getFile(id: string): Promise<ApplicationFile> {
 		try {
 			const metadata = await this.db.getMetadata(id);

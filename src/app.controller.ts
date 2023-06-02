@@ -23,6 +23,78 @@ import { FileIDDTO, FileSearchDTO, FileUploadDTO, ISEResponseDTO, NotFoundRespon
 export class AppController {
 	constructor(private readonly appService: AppService) {}
 
+	@Get('/')
+	public async gui(): Promise<string> {
+		const files = await this.appService.getAllFiles();
+
+		return `
+		<html data-theme="dark">
+			<head>
+				<title>CDN - GUI<title>
+				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+				<script>window.files = ${JSON.stringify(files)}</script>
+				<script>
+				function makeEntry(id, name, extension, type) {
+					const entry = document.createElement('tr');
+
+					const idElem = dcument.createElement('th');
+					idElem.scope = 'row';
+					idElem.textContent = id;
+					entry.appendChild(idElem);
+
+					const nameElem = document.createElement('td');
+					nameElem.textContent = name;
+					entry.appendChild(nameElem);
+
+					const extensionElem = document.createElement('td');
+					extensionElem.textContent = extension;
+					entry.appendChild(extensionElem);
+
+					const typeElem = document.createElement('td');
+					typeElem.textContent = type;
+					entry.appendChild(typeElem);
+
+					return entry;
+				}
+				</script>
+			</head>
+			<body>
+				<main class="container">
+					<table role="grid">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Extension</th>
+								<th scope="col">MIME Type</th>
+								<th scope="col">Preview</th>
+							</tr>
+						</thead>
+						<tbody id="list"></tbody>
+					</table>
+				</main>
+				<script>
+				const list = document.getElementById('list');
+
+				function display() {
+					list.replaceChildren();
+
+					for (const file of window.files) {
+						const { _id, name, ext, type } = file;
+
+						const entry = makeEntry(_id, name, ext, type);
+
+						list.appendChild(entry);
+					}
+				}
+
+				display();
+				</script>
+			</body>
+		</html>
+		`;
+	}
+
 	@Post('/')
 	@UseInterceptors(FileInterceptor('file'))
 	@ApiConsumes('multipart/form-data')
