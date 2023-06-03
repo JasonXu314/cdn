@@ -31,7 +31,7 @@ export class AppController {
 		<html data-theme="dark">
 			<head>
 				<title>CDN - GUI</title>
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+				<link rel="stylesheet" href="https://mypico.jasonxu.dev">
 				<style>
 				td img {
 					max-height: 5lh;
