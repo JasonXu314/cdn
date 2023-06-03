@@ -116,8 +116,7 @@ export class AppController {
 								<td>${file.ext.replace('<', '&lt;').replace('>', '&gt;')}</td>
 								<td>${file.type}</td>
 								<td><img src="${this.appService.getLocation()}/${file._id}"></td>
-							</tr>
-						`
+							</tr>`
 							)
 							.join('')}
 						</tbody>
