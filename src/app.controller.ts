@@ -106,7 +106,21 @@ export class AppController {
 								<th scope="col">Preview</th>
 							</tr>
 						</thead>
-						<tbody id="list"></tbody>
+						<tbody id="list">
+						${files
+							.map(
+								(file) => `
+							<tr>
+								<th scope="row">${file._id}</th>
+								<td>${file.name.replace('<', '&lt;').replace('>', '&gt;')}</td>
+								<td>${file.ext}</td>
+								<td>${file.type}</td>
+								<td><img src="${this.appService.getLocation()}/${file._id}"></td>
+							</tr>
+						`
+							)
+							.join('')}
+						</tbody>
 					</table>
 				</main>
 				<script>
@@ -125,8 +139,6 @@ export class AppController {
 						list.appendChild(entry);
 					}
 				}
-
-				display();
 
 				let timeout = null;
 				function debouncedSearch() {
