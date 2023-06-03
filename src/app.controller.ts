@@ -113,7 +113,7 @@ export class AppController {
 							<tr>
 								<th scope="row">${file._id}</th>
 								<td>${file.name.replace('<', '&lt;').replace('>', '&gt;')}</td>
-								<td>${file.ext}</td>
+								<td>${file.ext.replace('<', '&lt;').replace('>', '&gt;')}</td>
 								<td>${file.type}</td>
 								<td><img src="${this.appService.getLocation()}/${file._id}"></td>
 							</tr>
