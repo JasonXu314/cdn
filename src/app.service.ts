@@ -83,7 +83,7 @@ export class AppService {
 		switch (process.env.STAGE) {
 			case 'local':
 				return `http://localhost:${process.env.PORT || 5000}`;
-			case 'stage':
+			case 'test':
 				return 'https://cdn-stage.jasonxu.dev';
 			case 'live':
 				return 'https://cdn.jasonxu.dev';
