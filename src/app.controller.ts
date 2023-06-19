@@ -145,7 +145,7 @@ export class AppController {
 						clearTimeout(timeout);
 					}
 
-					setTimeout(search, 1500);
+					timeout = setTimeout(search, 1500);
 				}
 
 				function search() {
