@@ -20,8 +20,8 @@ export function match(file: WithId<DBFile>, query: string, field: 'id' | 'name' 
 	const q = query.toLowerCase();
 	const vws = value.replace(/\s/g, '');
 	const qws = q.replace(/\s/g, '');
-	const vFrags = value.split(/s/);
-	const qFrags = q.split(/s/);
+	const vFrags = value.split(/\s/);
+	const qFrags = q.split(/\s/);
 
 	return (
 		value.includes(q) ||
